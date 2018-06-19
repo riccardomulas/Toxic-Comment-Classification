@@ -5,7 +5,6 @@ from pyspark.sql import SQLContext
 import pyspark.sql.functions as F
 import pyspark.sql.types as T 
 from pyspark.ml.classification import LogisticRegression
-from pyspark.ml.feature import VectorAssembler
 from pyspark.ml.linalg import Vectors, VectorUDT
 import os
 import nltk
@@ -17,8 +16,8 @@ conf.set('spark.executor.memory','12g')
 conf.set('spark.cores.max',156)
 conf.set('spark.driver.maxResultSize', '10G')
 
-sc = SparkContext(conf= conf) # SparkContext
-sqlc = SQLContext(sc) # SqlContext
+sc = SparkContext(conf= conf) 
+sqlc = SQLContext(sc) 
 
 train = pd.read_csv('train.csv', encoding='utf-8')
 train.fillna("", inplace=True)
@@ -120,12 +119,8 @@ for label in labels:
     res = lrModel.transform(newSparkDFwithVectors)
     print("...appending result")
     accuracy = trainingSummary.accuracy
-    #falsePositiveRate = trainingSummary.weightedFalsePositiveRate
-    #truePositiveRate = trainingSummary.weightedTruePositiveRate
-    #fMeasure = trainingSummary.weightedFMeasure()
-    #precision = trainingSummary.weightedPrecision
-    #recall = trainingSummary.weightedRecall
     print("Accuracy: %s\n"
       % (accuracy))
+    print("areaUnderROC: " + str(trainingSummary.areaUnderROC))
 
 
