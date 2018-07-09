@@ -8,6 +8,7 @@ from pyspark.ml.classification import LogisticRegression
 from pyspark.ml.linalg import Vectors, VectorUDT
 import os
 import nltk
+import shrink
 
 conf= SparkConf().set("spark.eventLog.enabled", "false")
 conf.setAppName("Proof")
@@ -59,9 +60,11 @@ def load(path, vocabulary=None):
                 print('Unexpected error at line:', counter)
     return embeddings
 
-sizeEmbeddings = 128
+#shrink_to_vocabulary(embeddings_input_path, vocabulary)
+
+sizeEmbeddings = 256
 print("loading")
-embedding_model = load('/Users/riccardomulas/Downloads/shrunk/embeddings.txt', None)
+embedding_model = load('embeddings256.txt', None)
 print("end")
 
 embedding_broadcast = sc.broadcast(embedding_model)
@@ -71,7 +74,7 @@ def getEmbeddings(words):
     lista = [embedding_broadcast.value.get(word, default) for word in words]
     sumEmbeddings = np.zeros(sizeEmbeddings, dtype='float32')
     for vector in lista:
-        if len(vector) != 128:
+        if len(vector) != 256:
             continue
         sumEmbeddings = sumEmbeddings + vector
     length = len(sumEmbeddings)

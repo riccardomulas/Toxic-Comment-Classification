@@ -19,4 +19,3 @@ def save(embeddings, path):
             values = ' '.join(map(str, vector))
             f.write(word + ' ' + values + '\n')
 
-shrink_to_vocabulary(embeddings_input_path, vocabulary)
