@@ -10,6 +10,7 @@ To run the project, you need to install the following libraries:
 ```
 pip install pandas numpy scipy 
 ```
+To improve the accuracy of the model, word embeddings have been used. They can be downloaded at http://www.maurodragoni.com/research/opinionmining/dranziera/embeddings-evaluation.php
 ## Authors
 
 * **Riccardo Mulas** 
